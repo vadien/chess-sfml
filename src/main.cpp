@@ -1,4 +1,4 @@
-#include "Board.hpp"
+#include "BoardDisplay.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <imgui-SFML.h>
@@ -13,7 +13,8 @@ int main() {
     std::cout << "Imgui-SFML failed to init, exiting..." << std::endl;
     return -1;
   }
-  Board gameBoard;
+  BoardDisplay gameBoard = BoardDisplay();
+  gameBoard.texPieces.loadFromFile("ChessPiecesArray.png");
   gameBoard.generateBoard();
   sf::Clock clock;
   while (window.isOpen()) {
@@ -29,6 +30,7 @@ int main() {
     ImGui::SFML::Update(window, clock.restart());
 
     ImGui::Begin("Board controls");
+    // TODO: List all existing pieces
     if (ImGui::Button("Reset board size")) {
       squareSize = 64.0f;
     }
@@ -39,6 +41,9 @@ int main() {
 
     window.clear();
     for (auto s : gameBoard.getBoard()) {
+      window.draw(s);
+    }
+    for (auto s : gameBoard.getPieces()) {
       window.draw(s);
     }
     ImGui::SFML::Render(window);
