@@ -14,7 +14,7 @@ int main() {
     return -1;
   }
   BoardDisplay gameBoard = BoardDisplay();
-  gameBoard.texPieces.loadFromFile("ChessPiecesArray.png");
+  gameBoard.texPieces.loadFromFile("assets/textures/pieces.png");
   gameBoard.generateBoard();
   sf::Clock clock;
   while (window.isOpen()) {
@@ -42,6 +42,9 @@ int main() {
     window.clear();
     for (auto s : gameBoard.getBoard()) {
       window.draw(s);
+    }
+    for (auto l : gameBoard.getSquareLabels()) {
+      window.draw(l);
     }
     for (auto s : gameBoard.getPieces()) {
       window.draw(s);
