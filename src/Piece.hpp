@@ -1,7 +1,9 @@
+#pragma once
+
 class Piece {
-  // piece type
-  // current pos
-  // team
+  int startingSquare;
+  int currentSquare;
+  bool isDraggable;
 
 public:
   static const short EMPTY = 0;
