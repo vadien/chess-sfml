@@ -22,7 +22,6 @@ public:
   float squareSize = 64;
 
   BoardDisplay() : font("assets/fonts/Roboto.ttf"), boardText(font) {
-    sf::Font font("assets/fonts/Roboto.ttf");
     sf::Text boardText(font);
 
     // Initialise with default chess starting position, supposedly
@@ -74,11 +73,11 @@ public:
         // TODO: Make square size a variable
         sf::RectangleShape square({squareSize, squareSize});
         if ((i + j) % 2 == 0) {
-          square.setOutlineColor(sf::Color(50, 50, 50));
-          square.setFillColor(sf::Color(50, 50, 50));
+          square.setOutlineColor(sf::Color(160, 111, 93));
+          square.setFillColor(sf::Color(160, 111, 93));
         } else {
-          square.setOutlineColor(sf::Color::White);
-          square.setFillColor(sf::Color::White);
+          square.setOutlineColor(sf::Color(235, 211, 187));
+          square.setFillColor(sf::Color(235, 211, 187));
         }
         square.setOrigin({square.getPosition().x + squareSize / 2,
                           square.getPosition().y + squareSize / 2});
@@ -88,11 +87,11 @@ public:
         squareLabel.setFillColor(sf::Color::Green);
         squareLabel.setOutlineColor(sf::Color::Green);
         squareLabel.setPosition(
-            {square.getPosition().x, square.getPosition().y});
+            {square.getPosition().x - squareLabel.getLocalBounds().size.x / 2,
+             square.getPosition().y - squareLabel.getLocalBounds().size.y / 2});
         squareLabels.push_back(squareLabel);
       }
     }
-    std::cout << "boardDisplay length = " << boardDisplay.size() << std::endl;
     std::cout << "Board gen complete, now attempting pieces..." << std::endl;
 
     for (int i = 0; i < pieces.size(); i++) {
@@ -104,12 +103,10 @@ public:
         pieceDisplay.push_back(sprite);
       }
     }
-    std::cout << "pieceDisplay length = " << pieceDisplay.size() << std::endl;
-    std::cout << "All pieces ready" << std::endl;
+    std::cout << "Piece textures loaded" << std::endl;
   }
 
-  // TODO: Separate function for centre of square, or should it be stored
-  // somewhere?
+  // TODO: Separate function for centre of square
 
   sf::IntRect getPieceTexture(int pieceInt) {
     const sf::Vector2i pieceSize = {60, 60};

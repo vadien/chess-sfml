@@ -6,6 +6,7 @@
 #include <iostream>
 
 int main() {
+  bool showSquareLabels = false;
   float squareSize = 64;
   auto window = sf::RenderWindow(sf::VideoMode({1280u, 720u}), "Chess in SFML");
   window.setFramerateLimit(60);
@@ -14,7 +15,10 @@ int main() {
     return -1;
   }
   BoardDisplay gameBoard = BoardDisplay();
-  gameBoard.texPieces.loadFromFile("assets/textures/pieces.png");
+  if (!gameBoard.texPieces.loadFromFile("assets/textures/pieces.png")) {
+    std::cerr << "Could not load piece textures" << std::endl;
+  }
+
   gameBoard.generateBoard();
   sf::Clock clock;
   while (window.isOpen()) {
@@ -31,11 +35,10 @@ int main() {
 
     ImGui::Begin("Board controls");
     // TODO: List all existing pieces
-    if (ImGui::Button("Reset board size")) {
-      squareSize = 64.0f;
-    }
-    ImGui::SliderFloat("SliderFloat (0 -> 1)", &squareSize, 0.0f, 100.0f,
-                       "%.0f");
+    // TODO: Add input field for FEN strings
+    // TODO: Show current board as FEN string
+    // TODO: Toggle board shading for legal move squares
+    ImGui::Checkbox("Show Square Labels", &showSquareLabels);
     ImGui::ShowDemoWindow();
     ImGui::End();
 
@@ -43,8 +46,10 @@ int main() {
     for (auto s : gameBoard.getBoard()) {
       window.draw(s);
     }
-    for (auto l : gameBoard.getSquareLabels()) {
-      window.draw(l);
+    if (showSquareLabels) {
+      for (auto l : gameBoard.getSquareLabels()) {
+        window.draw(l);
+      }
     }
     for (auto s : gameBoard.getPieces()) {
       window.draw(s);
