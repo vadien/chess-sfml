@@ -107,20 +107,20 @@ public:
           squareLabels.push_back(squareLabel);
         }
       }
+    } else if (highlightPiece != -1) {
+      boardDisplay[highlightPiece].setFillColor(sf::Color(160, 150, 60));
+
     } else {
-      int i = 0;
-      for (auto s : boardDisplay) {
-        if (i % 2 == 0) {
-          s.setFillColor(sf::Color(160, 111, 93));
-        } else {
-          s.setFillColor(sf::Color(235, 211, 187));
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+          if ((i + j) % 2 == 0) {
+            boardDisplay[(i * 8) + j].setFillColor(sf::Color(160, 111, 93));
+          } else {
+            boardDisplay[(i * 8) + j].setFillColor(sf::Color(235, 211, 187));
+          }
         }
-        i++;
       }
     }
-    // else if (highlightPiece != -1) {
-    //   boardDisplay[highlightPiece].setFillColor(sf::Color(160, 150, 60));
-    // }
   }
 
   void updatePieceDisplay(bool initial = false) {

@@ -103,7 +103,7 @@ int main() {
 
     gameBoard.squareSize = squareSize;
     gameBoard.updateBoardDisplay(false,
-                                 (heldPiece != -1 ? heldPiece : selectedPiece));
+                                 (heldPiece != -1) ? heldPiece : selectedPiece);
     gameBoard.updatePieceDisplay();
     ImGui::SFML::Update(window, clock.restart());
 
