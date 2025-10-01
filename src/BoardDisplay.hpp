@@ -23,11 +23,11 @@ public:
   std::vector<sf::Text> squareLabels;
   float squareSize = 64;
 
-  BoardDisplay() : font("assets/fonts/Roboto.ttf"), boardText(font) {
+  BoardDisplay()
+      : pieces(64), font("assets/fonts/Roboto.ttf"), boardText(font) {
     sf::Text boardText(font);
 
     // Initialise with default chess starting position, supposedly
-    pieces.assign(64, 0);
     pieces[0] = Piece::WHITE + Piece::ROOK;
     pieces[1] = Piece::WHITE + Piece::KNIGHT;
     pieces[2] = Piece::WHITE + Piece::BISHOP;
