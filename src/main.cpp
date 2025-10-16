@@ -15,6 +15,8 @@ float squareSize = 64;
 int hoveredSquare = -1;
 int selectedPiece = -1;
 int heldPiece = -1;
+int lastMoveStart = -1;
+int lastMoveEnd = -1;
 
 int main() {
   auto inputState = PlayerInput::None;
@@ -61,22 +63,33 @@ int main() {
         if (mouseRelease->button == sf::Mouse::Button::Left) {
           if (hoveredSquare != heldPiece && heldPiece != -1 &&
               hoveredSquare != -1) {
+            // if held piece dragged to new square
             Move::forcedMove(gameBoard, heldPiece, hoveredSquare);
             selectedPiece = -1;
             std::cout << "Piece has been dragged to a new square, move made"
                       << std::endl;
+            lastMoveStart = heldPiece;
+            lastMoveEnd = hoveredSquare;
           } else if (selectedPiece != -1 && hoveredSquare != -1) {
+            // if clicked on new square with piece selected
             Move::forcedMove(gameBoard, selectedPiece, hoveredSquare);
             std::cout << "Clicked on new square with piece selected, move made"
                       << std::endl;
+            lastMoveStart = selectedPiece;
+            lastMoveEnd = hoveredSquare;
             selectedPiece = -1;
           } else if (selectedPiece == -1 && hoveredSquare == heldPiece &&
                      gameBoard.pieces[hoveredSquare] > 0) {
+            // if clicked on piece with no piece selected
             selectedPiece = heldPiece;
             std::cout << "Clicked on piece with no piece selected" << std::endl;
-          } else {
+          } else if (selectedPiece != -1 && hoveredSquare != -1 &&
+                     gameBoard.pieces[hoveredSquare] == 0) {
+            // if clicked on empty square
             selectedPiece = -1;
             std::cout << "Deselecting piece" << std::endl;
+          } else {
+            std::cout << "Clicked outside board" << std::endl;
           }
           heldPiece = -1;
         }
@@ -85,7 +98,10 @@ int main() {
 
     gameBoard.squareSize = squareSize;
     gameBoard.updateBoardDisplay(false,
-                                 (heldPiece != -1) ? heldPiece : selectedPiece);
+                                 (heldPiece != -1)       ? heldPiece
+                                 : (selectedPiece != -1) ? selectedPiece
+                                                         : lastMoveStart,
+                                 lastMoveEnd);
     gameBoard.updatePieceDisplay();
     ImGui::SFML::Update(window, clock.restart());
 
@@ -95,9 +111,11 @@ int main() {
     // TODO: Show current board as FEN string
     // TODO: Toggle board shading for legal move squares
     ImGui::Checkbox("Show Square Labels", &showSquareLabels);
-    ImGui::BulletText("Hovered Square: %d", hoveredSquare);
-    ImGui::BulletText("Selected Piece: %d", selectedPiece);
-    ImGui::BulletText("Held Piece: %d", heldPiece);
+    ImGui::BulletText("hoveredSquare: %d", hoveredSquare);
+    ImGui::BulletText("selectedPiece: %d", selectedPiece);
+    ImGui::BulletText("heldPiece: %d", heldPiece);
+    ImGui::BulletText("lastMoveStart: %d", lastMoveStart);
+    ImGui::BulletText("lastMoveEnd: %d", lastMoveEnd);
     ImGui::ShowDemoWindow();
     ImGui::End();
 

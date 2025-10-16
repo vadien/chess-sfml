@@ -21,5 +21,7 @@ public:
               << ", endSquare is now " << board.getPieces()[endSquare]
               << std::endl;
   }
-  void checkIsLegalMove(int startSquare, int targetSquare) {}
+  void checkIsLegalMove(int startSquare, int targetSquare) {
+    // TODO: How?
+  }
 };

@@ -81,7 +81,9 @@ public:
     std::cout << "Piece textures loaded" << std::endl;
   }
 
-  void updateBoardDisplay(bool initial = false, int highlightPiece = -1) {
+  void updateBoardDisplay(bool initial = false, int firstHighlightSquare = -1,
+                          int secondHighlightSquare = -1) {
+    // FIXME: Move initial param to end so that it doesn't have to be stated
     if (initial) {
       for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -109,9 +111,6 @@ public:
           squareLabels.push_back(squareLabel);
         }
       }
-    } else if (highlightPiece != -1) {
-      boardDisplay[highlightPiece].setFillColor(sf::Color(160, 150, 60));
-
     } else {
       for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -121,6 +120,14 @@ public:
             boardDisplay[(i * 8) + j].setFillColor(sf::Color(235, 211, 187));
           }
         }
+      }
+      if (firstHighlightSquare != -1) {
+        boardDisplay[firstHighlightSquare].setFillColor(
+            sf::Color(160, 150, 60));
+      }
+      if (secondHighlightSquare != -1) {
+        boardDisplay[secondHighlightSquare].setFillColor(
+            sf::Color(160, 150, 60));
       }
     }
   }
