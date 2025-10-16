@@ -1,4 +1,5 @@
 #include "BoardDisplay.hpp"
+#include "Move.hpp"
 #include "PlayerInput.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -14,25 +15,6 @@ float squareSize = 64;
 int hoveredSquare = -1;
 int selectedPiece = -1;
 int heldPiece = -1;
-
-void forcedMove(BoardDisplay &board, int startSquare, int endSquare) {
-  // Any piece will currently 'take' any other piece.
-  // FIXME: Pieces will take themselves!
-  if (board.pieces[startSquare] == 0) {
-    std::cout << "selectedPiece: " << selectedPiece << std::endl;
-    return;
-  }
-  int i = board.pieces[startSquare];
-  board.pieces[endSquare] = i;
-  board.pieces[startSquare] = 0;
-  std::cout << "Forced move: sq " << startSquare << " to sq " << endSquare
-            << std::endl;
-  std::cout << "startSquare should be " << board.pieces[startSquare]
-            << ", endSquare should be " << board.pieces[endSquare] << std::endl;
-  std::cout << "startSquare is now " << board.getPieces()[startSquare]
-            << ", endSquare is now " << board.getPieces()[endSquare]
-            << std::endl;
-}
 
 int main() {
   auto inputState = PlayerInput::None;
@@ -79,12 +61,12 @@ int main() {
         if (mouseRelease->button == sf::Mouse::Button::Left) {
           if (hoveredSquare != heldPiece && heldPiece != -1 &&
               hoveredSquare != -1) {
-            forcedMove(gameBoard, heldPiece, hoveredSquare);
+            Move::forcedMove(gameBoard, heldPiece, hoveredSquare);
             selectedPiece = -1;
             std::cout << "Piece has been dragged to a new square, move made"
                       << std::endl;
           } else if (selectedPiece != -1 && hoveredSquare != -1) {
-            forcedMove(gameBoard, selectedPiece, hoveredSquare);
+            Move::forcedMove(gameBoard, selectedPiece, hoveredSquare);
             std::cout << "Clicked on new square with piece selected, move made"
                       << std::endl;
             selectedPiece = -1;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Piece.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
